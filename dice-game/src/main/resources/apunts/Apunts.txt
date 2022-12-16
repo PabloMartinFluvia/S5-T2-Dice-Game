@@ -1,0 +1,2 @@
+JSON annotations per a la serialització / deserialització
+https://springframework.guru/jackson-annotations-json/

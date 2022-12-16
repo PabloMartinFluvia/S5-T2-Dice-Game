@@ -1,0 +1,54 @@
+Funcionalitats accessibles per a un usuari:
+1) Registrar-se
+    Opcional: Proporcionar un nom.
+        Si el proporciona -> nom NO pot ser repetit
+        Si no el proporciona -> nom usuari: ANONIM
+            * Pot haver-hi N usuaris amb nom ANONIM
+    Assignar una data de registre quan es crea
+
+    POST /players    crear jugador
+
+Funcionalitats accessibles per a un jugador:
+*0) Modificar el seu nom d'usuari
+
+    PUT /players    modificar nom del jugador
+
+1) Realitzar una tirada
+    Joc té 2 daus.
+    El joc es guanya si suma dels daus = 7.
+
+    POST /players/{id}/games
+
+2) Veure el llistat de totes les tirades fetes del jugador
+    Cada tirada amb el valor dels 2 daus i si ha guanyat o no
+
+    GET /players/{id}/games
+
+3) Veure el % d'èxit del total de les tirades fetes d'un jugador
+
+    * Enpoint NO especificat:
+        Opció A) Incloure la info en lo retornat en el enpoint anterior
+        Opcio B) Crear un endpoint específic tipus GET /players/{id}
+
+4) Eliminar TOT el llistat de tirades d'un jugador
+    *NO es pot eliminar UNA tirada en concret
+
+    DELETE /players/{id}/games
+
+Funcionalitats extra (rol que ho pot fer ?)
+1) Llistar TOTS els jugadors registrats amb el % d'exit de cada jugador
+
+    GET /players
+
+2) El percentatge d'èxit mitjà de tots els jugadors
+
+    GET /players/ranking
+
+3) El jugador amb pitjor % d'èxit
+
+    GET players/ranking/loser
+
+4) El jugador amb millor % d'èxit
+
+    GET players/ranking/winner
+
