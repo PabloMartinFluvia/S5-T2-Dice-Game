@@ -1,2 +1,6 @@
 JSON annotations per a la serialització / deserialització
 https://springframework.guru/jackson-annotations-json/
+
+Dates i temps + serialitzacions i formats
+https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-response-201e97aa74b0
+    obs 1: si vui que les hores siguin en rang 24h cal HH (enlloc de hh)

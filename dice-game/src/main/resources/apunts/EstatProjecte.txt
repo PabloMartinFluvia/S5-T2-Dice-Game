@@ -1,2 +1,28 @@
-De moment encara no s'ha afegit cap dependencia dels drivers a la BBDD
-    Només JPA, faltaria MySQL/Mongo
+De moment encara no s'ha afegit cap dependencia de JPA ni dels drivers a la BBDD
+
+De moment no afegeixo documentació
+
+Controlador:
+    De moment TOTS els endpoints en un mateix controlador, sense tenir en compte rols ni permisos.
+    De moment treballa directament amb els models (com si fossin DTOs)
+    De moment NO afegeixo validacions
+
+    Respostes: les proporciona/gestiona el GameResponse.class
+        De moment són del tipus ResponseEntity<?>
+            TODO: URI location en .created() al:
+                        registrar un nou player
+                   Decidir si al fer una nova tirada la resposta és OK o CREATED (sense URI)
+        De moment no afegeixo HATEOAS links ni Assemblers
+
+Models:
+    De moment la tirada no guarda el ID (en l'entitat estarà, xo en el model no ho tinc decidit)
+
+Serveis:
+    De moment només la interfaç.
+    Fer nova tirada:
+        TODO: decidir/pensar si: afegir tirada en model retornar + sobreescriure tot VS només afegir tirada i ja es podrà llegir correctament
+
+Repositoris:
+    De moment res.
+    Recordatori: vigilar / comprovar quen en els mètodes DELETE no es llanci una excepció si recurs not found.
+

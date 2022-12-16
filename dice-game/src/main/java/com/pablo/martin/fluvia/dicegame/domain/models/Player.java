@@ -3,11 +3,11 @@ package com.pablo.martin.fluvia.dicegame.domain.models;
 import java.util.Date;
 import java.util.List;
 
-public class User {
+public class Player {
 
-    private Long userId; //autogenerat
+    private Long playerId; //autogenerat
 
-    private String userName; //no repetit, si no proporcionat -> ANONIM
+    private String playerName; //no repetit, si no proporcionat -> ANONIM
 
     private Date registerDate; //valor segons quan es crea
 
