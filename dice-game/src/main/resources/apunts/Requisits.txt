@@ -26,9 +26,9 @@ Funcionalitats accessibles per a un jugador:
 
 3) Veure el % d'èxit del total de les tirades fetes d'un jugador
 
-    * Enpoint NO especificat:
+    * Endpoint NO especificat:
         Opció A) Incloure la info en lo retornat en el enpoint anterior
-        Opcio B) Crear un endpoint específic tipus GET /players/{id}
+        Opció B) Crear un endpoint específic tipus GET /players/{id}/ranking -> opció triada provisionalment
 
 4) Eliminar TOT el llistat de tirades d'un jugador
     *NO es pot eliminar UNA tirada en concret

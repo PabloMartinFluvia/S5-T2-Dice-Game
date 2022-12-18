@@ -6,21 +6,33 @@ Controlador:
     De moment TOTS els endpoints en un mateix controlador, sense tenir en compte rols ni permisos.
     De moment treballa directament amb els models (com si fossin DTOs)
     De moment NO afegeixo validacions
+    De moment NO afegeixo asserts.
+
+    Per a veure el % d'èxit d'un jugador específic creo un endpoint NO especificat en els requisits.
+        No s'inclou el % d'èxit en l'endpoint GET totes les tirades del jugador
 
     Respostes: les proporciona/gestiona el GameResponse.class
         De moment són del tipus ResponseEntity<?>
             TODO: URI location en .created() al:
                         registrar un nou player
-                   Decidir si al fer una nova tirada la resposta és OK o CREATED (sense URI)
+                  Decidir si al fer una nova tirada la resposta és OK o CREATED (sense URI)
+                  Decidir l'estructura de la resposta al retornar el % d'un jugador específic i si cal usar un dto.
+                  Decidir l'estructura de la resposta el retornar el % mig de tots els jugadors registrats i si cal usar un dto.
         De moment no afegeixo HATEOAS links ni Assemblers
 
 Models:
     De moment la tirada no guarda el ID (en l'entitat estarà, xo en el model no ho tinc decidit)
+    De moment el model del Player té la info del % de guanys.
+    TODO: type del % d'èxit (float VS String). Provisionalment float
 
 Serveis:
     De moment només la interfaç.
     Fer nova tirada:
         TODO: decidir/pensar si: afegir tirada en model retornar + sobreescriure tot VS només afegir tirada i ja es podrà llegir correctament
+    Obtenir % guanys: de moment demana TOT el Player i el GameResponse ja seleccionarà la info concreta a retornar. Usar un dto concret?
+        Potser no caldria buscar/retornar TOT el Player?
+    Llistat de tots els players amb % de guanys de cadascú: cal el %, i no incloure la llista de tirades. Ordenar la llista?
+    Best and worst players: ojo pk podria haver un empat entre N jugadors.
 
 Repositoris:
     De moment res.
