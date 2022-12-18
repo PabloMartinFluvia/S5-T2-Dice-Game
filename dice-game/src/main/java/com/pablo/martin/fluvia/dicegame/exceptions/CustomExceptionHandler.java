@@ -10,9 +10,17 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class CustomExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoHandlerFoundException.class)
+    @ExceptionHandler({
+            NoHandlerFoundException.class,
+            PlayerNotFoundException.class})
     public ApiErrorResponse handleNotFound(Exception ex){
         return new ApiErrorResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UsernameNotAvailableException.class)
+    public ApiErrorResponse handleNameNotAvailable(Exception ex){
+        return new ApiErrorResponse(HttpStatus.CONFLICT, ex);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

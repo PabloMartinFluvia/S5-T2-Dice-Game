@@ -18,6 +18,7 @@ public interface GameService {
 
     /**
      * Comprovar que el player amb aquest id existeix, obtenint del repository el player si està.
+     * Si el nou nom igual al ja guardat no modificar la BD i retornar el trovat
      * Comprovar que el nou nom no està ja registrat (ni el nou és el default). Excepció si duplicat.
      * Canviar el nom del model.
      * Dir-li al repository que guardi el model (sobreescrivint l'existent)

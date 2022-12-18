@@ -4,3 +4,18 @@ https://springframework.guru/jackson-annotations-json/
 Dates i temps + serialitzacions i formats
 https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-response-201e97aa74b0
     obs 1: si vui que les hores siguin en rang 24h cal HH (enlloc de hh)
+    obs: segons Hibernate (implementació de JPA):
+        Classes del paquet java.util -> Deprecated
+        -> Millor usar classes del paquet java.time
+        https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#basic-temporal
+
+Queries en SpringData + JPA:
+exists:
+https://www.baeldung.com/spring-data-exists-query
+
+Entitats
+Mètodes extra (no setters/getters/equals/hashcode/constructors) tenen que estar annotats amb @Transient.
+També els camps que no es vulguin persistir.
+
+Relacions entre entitats
+https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#associations

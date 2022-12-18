@@ -21,13 +21,14 @@ Controlador:
         De moment no afegeixo HATEOAS links ni Assemblers
 
 Models:
+    Anar creant el model segons les necessitats de les respostes.
     De moment la tirada no guarda el ID (en l'entitat estarà, xo en el model no ho tinc decidit)
     De moment el model del Player té la info del % de guanys.
     TODO: type del % d'èxit (float VS String). Provisionalment float
 
 Serveis:
-    De moment només la interfaç.
-    Fer nova tirada:
+    De moment NO faig asserts.
+    Fer nova tirada o eliminar tirades:
         TODO: decidir/pensar si: afegir tirada en model retornar + sobreescriure tot VS només afegir tirada i ja es podrà llegir correctament
     Obtenir % guanys: de moment demana TOT el Player i el GameResponse ja seleccionarà la info concreta a retornar. Usar un dto concret?
         Potser no caldria buscar/retornar TOT el Player?
@@ -35,6 +36,11 @@ Serveis:
     Best and worst players: ojo pk podria haver un empat entre N jugadors.
 
 Repositoris:
-    De moment res.
+    De moment només interfaç de l'adaptador.
+    Les validacions dels valors per a POST PUT es faran just abans de cridar a la interfaç del repository.
     Recordatori: vigilar / comprovar quen en els mètodes DELETE no es llanci una excepció si recurs not found.
+
+Entitats:
+Fer una relació 1:N bidireccional?
+https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#associations-one-to-many-bidirectional
 

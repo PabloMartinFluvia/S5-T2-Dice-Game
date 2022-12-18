@@ -4,6 +4,7 @@ import com.pablo.martin.fluvia.dicegame.domain.models.Player;
 import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
 import com.pablo.martin.fluvia.dicegame.domain.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/players")
+@PropertySource("classpath:values.properties")
 public class GameController {
 
     private GameService gameService;
@@ -25,7 +27,7 @@ public class GameController {
 
     @PostMapping
     public ResponseEntity<?> registerPlayer(
-            @RequestParam(defaultValue = "{user.defaultName}") String name){ //param in url must be /players?name=xxx
+            @RequestParam(defaultValue = "${user.defaultName}") String name){ //param in url must be /players?name=xxx
         Player player = gameService.registerNewPlayer(name);
         return gameResponse.playerCreated(player);
     }
