@@ -37,7 +37,7 @@ public class GameController {
             @RequestParam Long id,
             @RequestParam String name) { //param in url must be /players?id=yyy;name=xxx
         Player player = gameService.updateName(id, name);
-        return gameResponse.playerCreated(player);
+        return gameResponse.nameUpdated(player);
     }
 
     @PostMapping(path = "/{id}/games")

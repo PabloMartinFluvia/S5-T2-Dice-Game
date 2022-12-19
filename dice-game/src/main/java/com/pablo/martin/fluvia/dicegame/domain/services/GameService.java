@@ -30,6 +30,14 @@ public interface GameService {
     Player updateName(Long id, String username);
 
     /**
+     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
+     * Retornar-lo.
+     * @param id
+     * @return
+     */
+    Player findPlayer(Long id);
+
+    /**
      * Comprovar que el player existeix
      * TODO: com guardar la tirada
      * Retornar la tirada (indicant si ha guanyat o no)
@@ -53,15 +61,6 @@ public interface GameService {
      * @return
      */
     List<Roll> findPlayerRolls(Long id);
-
-    /**
-     * Comprovar que el player existeix.
-     * Demanar al repositori el Player en questió
-     * Retornar-lo.
-     * @param id
-     * @return
-     */
-    Player findPlayer(Long id);
 
     /**
      * Demanar al repositori tots els registres de player.
