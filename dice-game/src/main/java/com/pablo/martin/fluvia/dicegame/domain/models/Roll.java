@@ -3,14 +3,11 @@ package com.pablo.martin.fluvia.dicegame.domain.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.Arrays;
 
 @Getter
 @Setter
-@PropertySource("classpath:values.properties")
 public class Roll {
 
     private RollResult result; // Enum WIN/LOSE,  es guanya si la suma dels daus = 7
