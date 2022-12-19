@@ -1,5 +1,6 @@
 package com.pablo.martin.fluvia.dicegame.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +14,11 @@ public class Roll {
 
     private int[] dices; //longitud = 2, valor de la cara del dau
 
+    @JsonIgnore
+    private int WIN_RESULT = 7;
+
     public Roll updateResult(){
-        if(Arrays.stream(dices).sum() == 7){
+        if(Arrays.stream(dices).sum() == WIN_RESULT){
             result = RollResult.WIN;
         }else {
             result = RollResult.LOSE;

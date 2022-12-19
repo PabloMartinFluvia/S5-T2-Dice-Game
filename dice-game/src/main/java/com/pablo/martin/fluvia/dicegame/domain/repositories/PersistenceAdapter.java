@@ -3,6 +3,7 @@ package com.pablo.martin.fluvia.dicegame.domain.repositories;
 import com.pablo.martin.fluvia.dicegame.domain.models.Player;
 import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -51,6 +52,14 @@ public interface PersistenceAdapter {
      * @param player
      */
     void deletePlayerRolls(Player player);
+
+    /**
+     * Demanar al repository de rolls la llista de models bàsics de rolls associats
+     * a aquest model bàsic de player.
+     * @param player
+     * @return
+     */
+    List<Roll> loadPlayerRolls(Player player);
 
     /**
      * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.
