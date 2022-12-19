@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface PersistenceAdapter {
 
     /**
-     * Crear una nova entitat amb el nom proporcionat.
+     * Crear una nova entitat player amb el nom proporcionat.
      * Dir-li al repositori que guardi la nova entitat.
-     * Retornar el model de Player obtingut a partir de l'entitat retornada per la persistencia.
+     * Retornar el model Player basic (mateixos camps que player entity) equivalent a l'entity guardada
      * @param username
      * @return
      */
@@ -19,26 +19,18 @@ public interface PersistenceAdapter {
 
     /**
      * Passar el model a entity
-     * Cridar al repositori i dir-li save el player entity (guarda o sobreescriu)
-     * Retornar lo obtingut, passant-lo abans al model.
+     * Indicar al repositori que sobreescrigui el player entity.
+     * Retornar lo obtingut, passant-lo abans al model basic de Player
      * @param player
      * @return
      */
-    Player saveOrReplacePlayer(Player player);
-
-    /**
-     * Cridar al repositori que em busqui el player entity segons el id
-     * i ho retorno, passant abans l'entitat al model.
-     * @param id
-     * @return
-     */
-    Optional<Player> findPlayerById(Long id);
+    Player replaceBasicPlayer(Player player);
 
     /**
      * This method has the pre-condition the player must exist.
      * Demanar a la persistencia que linki aquesta tirada al player
      *      IMPORTANT: depen del modelatge de les relacions
-     * Retornar el model de la tirada, indicant si és guanyadora o no.
+     * Retornar el model equivalent de l'entitat tirada guardada.
      * @param playerId
      * @param roll
      * @return
@@ -46,12 +38,22 @@ public interface PersistenceAdapter {
     Roll addRollToPlayer(Long playerId, Roll roll);
 
     /**
-     * Demanar al repository que busqui si ja existeix un usuari amb aquest nom.
-     * Important: Només es crida si username NO default (assert)?
-     * Obs: en l'interfaç del repository usar mètode boolean existsPlayerByPlayerName
-     *      -> exists NomEntitat By NomCamp (tipusNomCamp valor)
-     *
-     *      if (registrat) -> return true
+     * Cridar al repositori que em busqui el Optional player entity segons el id
+     * Retornar l'Optional mapjeat al model basic de Player
+     * @param id
+     * @return
+     */
+    Optional<Player> findBasicPlayerById(Long id);
+
+    /**
+     * Demanar al repository de rolls que elimini totes les tirades associades
+     * a aquest model bàsic de player.
+     * @param player
+     */
+    void deletePlayerRolls(Player player);
+
+    /**
+     * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.
      * @param username
      * @return
      */
@@ -63,6 +65,18 @@ public interface PersistenceAdapter {
      * @return
      */
     boolean existsPlayerById(Long id);
+
+    //-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 

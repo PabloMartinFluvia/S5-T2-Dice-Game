@@ -32,12 +32,12 @@ public class GameResponse {
         return ResponseEntity.ok(rolls);
     }
 
-    public ResponseEntity<Map<String,Object>> playerWinRateReaded(Player player){ //potser seria millor usar un DTO
+    public ResponseEntity<Map<String,Object>> playerWinRatedReaded(Player player){ //potser seria millor usar un DTO
         Map<String,Object> body = Map.of("Player id", player.getPlayerId(), "Win rate",player.getWinRate()); //TODO
         return ResponseEntity.ok(body);
     }
 
-    public ResponseEntity<List<Player>> playersListed(List<Player> players){
+    public ResponseEntity<List<Player>> allPlayersWinRatedListed(List<Player> players){
         return ResponseEntity.ok(players);
     }
 
