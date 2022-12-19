@@ -55,27 +55,32 @@ public class GameController {
         return gameResponse.rollsDeleted();
     }
 
-    //-----------------------------------------------------------------------------
-
-
-
     @GetMapping(path = "/{id}/games")
     public ResponseEntity<?> listPlayerRolls(@PathVariable Long id){
         List<Roll> rolls = gameService.getPlayerRolls(id);
         return gameResponse.rollsReaded(rolls);
     }
 
-    @GetMapping(path = "/{id}/ranking")
+    //-----------------------------------------------------------------------------
+
+
+
+
+
+    @GetMapping(path = {"/{id}/ranking"})
     public ResponseEntity<?> showPlayerWinRate(@PathVariable Long id){
         Player player = gameService.getPlayerWinRated(id); //Potser no caldria TOT el Player
         return gameResponse.playerWinRatedReaded(player);
     }
+
 
     @GetMapping
     public ResponseEntity<?> listAllPlayersWinRate(){
         List<Player> players = gameService.getAllPlayersWinRated();
         return gameResponse.allPlayersWinRatedListed(players);
     }
+
+    //GET players/{id}/ranking/games show player info with winrate and his list of rolls
 
     @GetMapping(path = "/ranking")
     public ResponseEntity<?> getAverageWinRate(){

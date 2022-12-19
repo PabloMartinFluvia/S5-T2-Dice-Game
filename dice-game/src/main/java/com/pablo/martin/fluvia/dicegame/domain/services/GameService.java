@@ -46,19 +46,16 @@ public interface GameService {
      */
     void deletePlayerRolls(Long id);
 
-    //-----------------------------------------------------------------------------------------------
-
-
-
     /**
-     * Comprovar que el player existeix
-     * Demanar al repositori la llista de totes les tirades
-     * Retornar el llistat de Rolls. (Ha d'incloure els 2 nums dels daus i si la tirada és guanyadora o no)
+     * Assegurar que el player existeix.
+     * Demanar a l'adaptador tots els models bàsics de les tirades d'aquest player.
+     * Afegir al llistat retornat info de si s'ha guanyat o no en cada tirada i retornar-ho
      * @param id
      * @return
      */
     List<Roll> getPlayerRolls(Long id);
 
+    //-----------------------------------------------------------------------------------------------
 
 
 
@@ -71,10 +68,6 @@ public interface GameService {
      * @return
      */
     Player getPlayerWinRated(Long id);
-
-
-
-
 
 
 

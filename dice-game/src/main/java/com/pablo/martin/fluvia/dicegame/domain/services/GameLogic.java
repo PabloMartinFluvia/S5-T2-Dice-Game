@@ -91,6 +91,19 @@ public class GameLogic implements GameService{
         persistenceAdapter.findBasicPlayerById(id).ifPresent(persistenceAdapter::deletePlayerRolls);
     }
 
+    /**
+     * Assegurar que el player existeix.
+     * Demanar a l'adaptador tots els models bàsics de les tirades d'aquest player.
+     * Afegir al llistat retornat info de si s'ha guanyat o no en cada tirada i retornar-ho
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Roll> getPlayerRolls(Long id) {
+        Player player = loadBasicPlayer(id);
+        return persistenceAdapter.loadPlayerRolls(player).stream().map(roll -> roll.updateResult()).toList();
+    }
+
     private Player loadBasicPlayer(Long id){
         return persistenceAdapter.findBasicPlayerById(id).orElseThrow(() -> new PlayerNotFoundException(id));
     }
@@ -128,34 +141,6 @@ public class GameLogic implements GameService{
      */
     @Override
     public Player getPlayerWinRated(Long id) {
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Comprovar que el player existeix
-     * Demanar al repositori la llista de totes les tirades
-     * Retornar el llistat de Rolls. (Ha d'incloure els 2 nums dels daus i si la tirada és guanyadora o no)
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public List<Roll> getPlayerRolls(Long id) {
         return null;
     }
 
