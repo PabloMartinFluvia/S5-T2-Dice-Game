@@ -2,6 +2,7 @@ package com.pablo.martin.fluvia.dicegame.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.List;
