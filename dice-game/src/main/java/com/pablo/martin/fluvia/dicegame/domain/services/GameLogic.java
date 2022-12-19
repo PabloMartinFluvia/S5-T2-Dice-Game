@@ -36,14 +36,8 @@ public class GameLogic implements GameService{
      */
     @Override
     public Player registerNewPlayer(String username) {
-        checkUsernameAvailable(username);
+        assertUsernameAvailable(username);
         return persistenceAdapter.registerNewPlayer(username);
-    }
-
-    private void checkUsernameAvailable(String username){
-        if(!username.equals(defaultName) && persistenceAdapter.isUsernameRegistered(username)){ //no default name AND already exists
-            throw new UsernameNotAvailableException(username);
-        }
     }
 
     /**
@@ -60,12 +54,30 @@ public class GameLogic implements GameService{
      */
     @Override
     public Player updateName(Long id, String username) {
-        return null;
+        Player player = findPlayer(id);
+        if(!player.getUsername().equals(username)){
+            assertUsernameAvailable(username);
+            player.setUsername(username);
+            return persistenceAdapter.saveOrReplacePlayer(player);
+        }
+        return player; //old name = new name -> return found (old)
+    }
+
+    /**
+     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
+     * Retornar-lo.
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Player findPlayer(Long id) {
+        return persistenceAdapter.findPlayerById(id).orElseThrow(() -> new PlayerNotFoundException(id));
     }
 
     /**
      * Comprovar que el player existeix
-     * TODO: com guardar la tirada
+     * Demanar a l'adapdador que guardi la tirada associant-lo al player
      * Retornar la tirada (indicant si ha guanyat o no)
      *
      * @param id
@@ -74,8 +86,26 @@ public class GameLogic implements GameService{
      */
     @Override
     public Roll addRoll(Long id, Roll roll) {
-        return null; //TODO
+        assertExistsPlayerById(id);
+        return persistenceAdapter.addRollToPlayer(id,roll);
     }
+
+    private void assertUsernameAvailable(String username){
+        if(!username.equals(defaultName) && persistenceAdapter.isUsernameRegistered(username)){
+            // name already exists AND it's not the default
+            throw new UsernameNotAvailableException(username);
+        }
+    }
+
+    private void assertExistsPlayerById(Long id){
+        if(!persistenceAdapter.existsPlayerById(id)){
+            throw new PlayerNotFoundException(id);
+        }
+    }
+
+
+
+
 
     /**
      * Dir al repository que elimini les tirades associades a l'id d'aquest player.
@@ -101,18 +131,7 @@ public class GameLogic implements GameService{
         return null;
     }
 
-    /**
-     * Comprovar que el player existeix.
-     * Demanar al repositori el Player en questió
-     * Retornar-lo.
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Player findPlayer(Long id) {
-        return null;
-    }
+
 
     /**
      * Demanar al repositori tots els registres de player.

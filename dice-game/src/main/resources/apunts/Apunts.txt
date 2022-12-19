@@ -14,8 +14,10 @@ exists:
 https://www.baeldung.com/spring-data-exists-query
 
 Entitats
-Mètodes extra (no setters/getters/equals/hashcode/constructors) tenen que estar annotats amb @Transient.
-També els camps que no es vulguin persistir.
+També els camps que no es vulguin persistir anotats amb @Transient
 
 Relacions entre entitats
 https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#associations
+
+Arrays en entitats
+https://thorben-janssen.com/mapping-arrays-with-hibernate/

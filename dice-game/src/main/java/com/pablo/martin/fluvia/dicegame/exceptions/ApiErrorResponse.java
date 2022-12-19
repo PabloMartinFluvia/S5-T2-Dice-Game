@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -27,5 +28,15 @@ public class ApiErrorResponse {
         this.timestamp = LocalDateTime.now();
         this.exception = ex.getClass().getSimpleName();
         this.causes = List.of(ex.getMessage());
+    }
+
+    /*
+    Constructor to use for display custom causes
+     */
+    public ApiErrorResponse (HttpStatus status, Exception ex, String... causes){
+        this.statusCode = status.value();
+        this.timestamp = LocalDateTime.now();
+        this.exception = ex.getClass().getSimpleName();
+        this.causes = List.of(causes);
     }
 }
