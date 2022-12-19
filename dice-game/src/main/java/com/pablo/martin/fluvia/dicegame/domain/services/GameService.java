@@ -9,20 +9,20 @@ public interface GameService {
 
     /**
      * Comprovar que el nom no està ja registrat (excepte si és el nom default). Excepció si duplicat.
-     * Dir-li al repositori que guardi una nova entitat amb aquest nom.
-     * Retornar el model que es retorna quan el repositori guarda
+     * Dir-li a l'adaptador que guardi nou player amb aquest nom.
+     * Retornar el model Player basic retornat.
      * @param username
      * @return
      */
     Player registerNewPlayer(String username);
 
     /**
-     * Comprovar que el player amb aquest id existeix, obtenint del repository el player si està.
-     * Si el nou nom igual al ja guardat no modificar la BD i retornar el trovat
+     * Buscar el model Player basic corresponent a l'id.
+     * Si el nou nom igual al ja guardat retornar lo trovat.
+     * Else:
      * Comprovar que el nou nom no està ja registrat (ni el nou és el default). Excepció si duplicat.
-     * Canviar el nom del model.
-     * Dir-li al repository que guardi el model (sobreescrivint l'existent)
-     * Retornar el model que es retorna quan el repositori guarda/sobreescriu.
+     * Dir-li a l'adaptador que actualitzi el player.
+     * Retornar el model Player basic retornat.
      * @param id
      * @param username
      * @return
@@ -30,28 +30,25 @@ public interface GameService {
     Player updateName(Long id, String username);
 
     /**
-     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
-     * Retornar-lo.
-     * @param id
-     * @return
-     */
-    Player findPlayer(Long id);
-
-    /**
      * Comprovar que el player existeix
-     * TODO: com guardar la tirada
-     * Retornar la tirada (indicant si ha guanyat o no)
-     * @param id
+     * Demanar a l'adaptador que guardi la tirada associant-lo al player
+     * Afegir al model de tirada retornat info de si s'ha guanyat o no i retornar-ho
+     * @parm id
      * @param roll
      * @return
      */
     Roll addRoll(Long id, Roll roll);
 
     /**
-     * Dir al repository que elimini les tirades associades a l'id d'aquest player.
+     * IF el player existeix:
+     * Demanar a l'adaptador que elimini les tirades associades a l'id d'aquest player.
      * @param id
      */
     void deletePlayerRolls(Long id);
+
+    //-----------------------------------------------------------------------------------------------
+
+
 
     /**
      * Comprovar que el player existeix
@@ -60,7 +57,26 @@ public interface GameService {
      * @param id
      * @return
      */
-    List<Roll> findPlayerRolls(Long id);
+    List<Roll> getPlayerRolls(Long id);
+
+
+
+
+
+
+    /**
+     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
+     * Retornar-lo.
+     * @param id
+     * @return
+     */
+    Player getPlayerWinRated(Long id);
+
+
+
+
+
+
 
     /**
      * Demanar al repositori tots els registres de player.
@@ -68,7 +84,7 @@ public interface GameService {
      * Retornar-los.
      * @return
      */
-    List<Player> getAllPlayers();
+    List<Player> getAllPlayersWinRated();
 
     /**
      * Demanar al repositori la llista de tots els players.

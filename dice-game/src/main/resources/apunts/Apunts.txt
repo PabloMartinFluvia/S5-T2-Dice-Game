@@ -9,9 +9,16 @@ https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-r
         -> Millor usar classes del paquet java.time
         https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#basic-temporal
 
+SQL
 Queries en SpringData + JPA:
 exists:
 https://www.baeldung.com/spring-data-exists-query
+queries modificadores:
+https://www.baeldung.com/spring-data-partial-update
+https://www.baeldung.com/spring-data-jpa-modifying-annotation
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.modifying-queries
+Transaccions fora de repositoris:
+https://www.logicbig.com/tutorials/spring-framework/spring-data/transactions.html
 
 Entitats
 També els camps que no es vulguin persistir anotats amb @Transient
@@ -21,3 +28,6 @@ https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Gu
 
 Arrays en entitats
 https://thorben-janssen.com/mapping-arrays-with-hibernate/
+
+MONGO
+https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mapping-usage-annotations

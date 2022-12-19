@@ -2,7 +2,6 @@ package com.pablo.martin.fluvia.dicegame.domain.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 
@@ -14,11 +13,12 @@ public class Roll {
 
     private int[] dices; //longitud = 2, valor de la cara del dau
 
-    public void doResult(){
+    public Roll updateResult(){
         if(Arrays.stream(dices).sum() == 7){
             result = RollResult.WIN;
         }else {
             result = RollResult.LOSE;
         }
+        return this;
     }
 }

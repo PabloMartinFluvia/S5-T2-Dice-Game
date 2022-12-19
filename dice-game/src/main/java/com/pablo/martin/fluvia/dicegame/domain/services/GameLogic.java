@@ -28,9 +28,8 @@ public class GameLogic implements GameService{
 
     /**
      * Comprovar que el nom no està ja registrat (excepte si és el nom default). Excepció si duplicat.
-     * Dir-li al repositori que guardi una nova entitat amb aquest nom.
-     * Retornar el model que es retorna quan el repositori guarda
-     *
+     * Dir-li a l'adaptador que guardi nou player amb aquest nom.
+     * Retornar el model Player basic retornat.
      * @param username
      * @return
      */
@@ -41,45 +40,37 @@ public class GameLogic implements GameService{
     }
 
     /**
-     * Comprovar que el player amb aquest id existeix, obtenint del repository el player si està.
-     * Si el nou nom igual al ja guardat no modificar la BD i retornar el trovat
+     * Buscar el model Player basic corresponent a l'id.
+     * Si el nou nom igual al ja guardat retornar lo trovat.
+     * Else:
      * Comprovar que el nou nom no està ja registrat (ni el nou és el default). Excepció si duplicat.
-     * Canviar el nom del model.
-     * Dir-li al repository que guardi el model (sobreescrivint l'existent)
-     * Retornar el model que es retorna quan el repositori guarda/sobreescriu.
-     *
+     * Dir-li a l'adaptador que actualitzi el player.
+     * Retornar el model Player basic retornat.
      * @param id
      * @param username
      * @return
      */
     @Override
     public Player updateName(Long id, String username) {
-        Player player = findPlayer(id);
+        /*
+        En el repositori no vui usar @Query + @Modifying en una query SET,
+        ja que no em retornaria l'entitat.
+        -> Obtenir el model + modificar-lo + sobreescriure
+        Les tirades NO és llegeixen, ni es sobreescriuen, ni es retorna info (millor eficiència).
+         */
+        Player player = loadBasicPlayer(id);
         if(!player.getUsername().equals(username)){
             assertUsernameAvailable(username);
             player.setUsername(username);
-            return persistenceAdapter.saveOrReplacePlayer(player);
+            return persistenceAdapter.replaceBasicPlayer(player);
         }
         return player; //old name = new name -> return found (old)
     }
 
     /**
-     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
-     * Retornar-lo.
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Player findPlayer(Long id) {
-        return persistenceAdapter.findPlayerById(id).orElseThrow(() -> new PlayerNotFoundException(id));
-    }
-
-    /**
      * Comprovar que el player existeix
-     * Demanar a l'adapdador que guardi la tirada associant-lo al player
-     * Retornar la tirada (indicant si ha guanyat o no)
-     *
+     * Demanar a l'adaptador que guardi la tirada associant-lo al player
+     * Afegir al model de tirada retornat info de si s'ha guanyat o no i retornar-ho
      * @param id
      * @param roll
      * @return
@@ -87,9 +78,26 @@ public class GameLogic implements GameService{
     @Override
     public Roll addRoll(Long id, Roll roll) {
         assertExistsPlayerById(id);
-        return persistenceAdapter.addRollToPlayer(id,roll);
+        return persistenceAdapter.addRollToPlayer(id,roll).updateResult();
     }
 
+    /**
+     * IF el player existeix:
+     * Demanar a l'adaptador que elimini les tirades associades a l'id d'aquest player.
+     * @param id
+     */
+    @Override
+    public void deletePlayerRolls(Long id) {
+        persistenceAdapter.findBasicPlayerById(id).ifPresent(persistenceAdapter::deletePlayerRolls);
+    }
+
+    private Player loadBasicPlayer(Long id){
+        return persistenceAdapter.findBasicPlayerById(id).orElseThrow(() -> new PlayerNotFoundException(id));
+    }
+
+    /*
+    Duplicació de default username -> cap problema
+     */
     private void assertUsernameAvailable(String username){
         if(!username.equals(defaultName) && persistenceAdapter.isUsernameRegistered(username)){
             // name already exists AND it's not the default
@@ -103,20 +111,40 @@ public class GameLogic implements GameService{
         }
     }
 
+    //-----------------------------------------------------------------------------------------------
+
+
+
 
 
 
 
     /**
-     * Dir al repository que elimini les tirades associades a l'id d'aquest player.
-     *TODO: com dir que elimini les tirades (segons l'estructura de les entitats i del model)
+     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
+     * Retornar-lo.
      *
      * @param id
+     * @return
      */
     @Override
-    public void deletePlayerRolls(Long id) {
-        //TODO: get player + update + save player VS exist player + call adapter removeRolls(playerId)
+    public Player getPlayerWinRated(Long id) {
+        return null;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Comprovar que el player existeix
@@ -127,7 +155,7 @@ public class GameLogic implements GameService{
      * @return
      */
     @Override
-    public List<Roll> findPlayerRolls(Long id) {
+    public List<Roll> getPlayerRolls(Long id) {
         return null;
     }
 
@@ -141,7 +169,7 @@ public class GameLogic implements GameService{
      * @return
      */
     @Override
-    public List<Player> getAllPlayers() {
+    public List<Player> getAllPlayersWinRated() {
         return null;
     }
 

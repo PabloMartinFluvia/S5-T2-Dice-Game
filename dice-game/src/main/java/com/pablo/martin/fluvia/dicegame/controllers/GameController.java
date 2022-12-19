@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/players")
@@ -48,28 +49,32 @@ public class GameController {
         return gameResponse.rollDone(roll);
     }
 
-    @GetMapping(path = "/{id}/games")
-    public ResponseEntity<?> findPlayerRolls(@PathVariable Long id){
-        List<Roll> rolls = gameService.findPlayerRolls(id);
-        return gameResponse.rollsReaded(rolls);
-    }
-
-    @GetMapping(path = "/{id}/ranking")
-    public ResponseEntity<?> findPlayerWinRate(@PathVariable Long id){
-        Player player = gameService.findPlayer(id); //Potser no caldria TOT el Player
-        return gameResponse.playerWinRateReaded(player);
-    }
-
     @DeleteMapping(path = "/{id}/games")
     public ResponseEntity<?> deletePlayerRolls(@PathVariable Long id){
         gameService.deletePlayerRolls(id);
         return gameResponse.rollsDeleted();
     }
 
+    //-----------------------------------------------------------------------------
+
+
+
+    @GetMapping(path = "/{id}/games")
+    public ResponseEntity<?> listPlayerRolls(@PathVariable Long id){
+        List<Roll> rolls = gameService.getPlayerRolls(id);
+        return gameResponse.rollsReaded(rolls);
+    }
+
+    @GetMapping(path = "/{id}/ranking")
+    public ResponseEntity<?> showPlayerWinRate(@PathVariable Long id){
+        Player player = gameService.getPlayerWinRated(id); //Potser no caldria TOT el Player
+        return gameResponse.playerWinRatedReaded(player);
+    }
+
     @GetMapping
-    public ResponseEntity<?> getAllPlayers(){
-        List<Player> players = gameService.getAllPlayers();
-        return gameResponse.playersListed(players);
+    public ResponseEntity<?> listAllPlayersWinRate(){
+        List<Player> players = gameService.getAllPlayersWinRated();
+        return gameResponse.allPlayersWinRatedListed(players);
     }
 
     @GetMapping(path = "/ranking")
