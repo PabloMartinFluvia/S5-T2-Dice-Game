@@ -11,6 +11,7 @@ https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-r
 
 Customitzar com vui que sigui la serialització d'algun camp
 https://stackoverflow.com/questions/11319445/java-to-jackson-json-serialization-money-fields
+* En una expresssió formatter si vui que s'inclogui el caràcter % -> " %% " (dues vegades)
 
 SQL
 Queries en SpringData + JPA:
@@ -34,3 +35,9 @@ https://thorben-janssen.com/mapping-arrays-with-hibernate/
 
 MONGO
 https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mapping-usage-annotations
+
+Streams:
+Canviar el format de col·leccions entre elles o entre Streams pot generar una UnsuportedOperationException:
+Ex: Arrays.asList() + demanar a la llista .add()
+Ex: .stream()...toList() + demanar a la llista .sort(Comparator) -> Solució l'operació sort s'ha de fer
+des del format stream.

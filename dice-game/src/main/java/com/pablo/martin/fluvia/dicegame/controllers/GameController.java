@@ -67,6 +67,12 @@ public class GameController {
         return gameResponse.playerWinRatedReaded(player);
     }
 
+    @GetMapping
+    public ResponseEntity<?> listAllPlayersWinRate(){
+        List<Player> players = gameService.getAllPlayersWinRated();
+        return gameResponse.allPlayersWinRatedListed(players);
+    }
+
     //-----------------------------------------------------------------------------
 
 
@@ -76,11 +82,7 @@ public class GameController {
 
 
 
-    @GetMapping
-    public ResponseEntity<?> listAllPlayersWinRate(){
-        List<Player> players = gameService.getAllPlayersWinRated();
-        return gameResponse.allPlayersWinRatedListed(players);
-    }
+
 
     //GET players/{id}/ranking/games show player info with winrate and his list of rolls
 

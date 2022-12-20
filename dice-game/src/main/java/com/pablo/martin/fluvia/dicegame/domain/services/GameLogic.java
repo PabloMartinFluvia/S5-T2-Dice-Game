@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -114,8 +115,25 @@ public class GameLogic implements GameService{
     @Override
     public Player getPlayerWinRated(Long id) {
         Player player = loadBasicPlayer(id);
-        List<Roll> rolls = getPlayerRolls(player);
-        return player.updateWinRate(rolls);
+        return updateBasicPlayerWithWinRate(player);
+    }
+
+    /**
+     * Obtenir del adaptador la llista dels players en format model bàsic.
+     * Per a cada model del llistat:
+     * Actualitzar-lo a model player win rated.
+     * Ordenar el llistat segons el valor del ratio de major a menor
+     * Retornar el llistat
+     * @return
+     */
+    @Override
+    public List<Player> getAllPlayersWinRated() {
+        List<Player> players = persistenceAdapter.findAllBasicPlayer();
+        return players.stream().map(this::updateBasicPlayerWithWinRate)
+                //Sorting: ASC (low value..high value)
+                //usign comparator (n1,n2): firs n1 if n1<n2 (negative int return)
+                //      if returned int < 0 -> firs argument goes first
+                .sorted((p1,p2)->Float.compare(p2.getWinRate(), p1.getWinRate())).toList();
     }
 
     private Player loadBasicPlayer(Long id){
@@ -142,6 +160,11 @@ public class GameLogic implements GameService{
         return persistenceAdapter.loadPlayerRolls(player).stream().map(roll -> roll.updateResult()).toList();
     }
 
+    private Player updateBasicPlayerWithWinRate(Player player){
+        List<Roll> rolls = getPlayerRolls(player);
+        return player.updateWinRate(rolls);
+    }
+
     //-----------------------------------------------------------------------------------------------
 
 
@@ -154,17 +177,7 @@ public class GameLogic implements GameService{
 
 
 
-    /**
-     * Demanar al repositori tots els registres de player.
-     * IMPORTANT: NO S'HA DE RETORNAR AL CONTROLADOR LA LLISTA DE TIRADES PERÒ SI EL % DE CADASCUN D'ELLS
-     * Retornar-los.
-     *
-     * @return
-     */
-    @Override
-    public List<Player> getAllPlayersWinRated() {
-        return null;
-    }
+
 
     /**
      * Demanar al repositori la llista de tots els players.

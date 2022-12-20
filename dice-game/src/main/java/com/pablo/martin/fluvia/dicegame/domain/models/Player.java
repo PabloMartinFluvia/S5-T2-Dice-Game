@@ -1,20 +1,19 @@
 package com.pablo.martin.fluvia.dicegame.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pablo.martin.fluvia.dicegame.utils.PercentageSerializer;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -44,5 +43,4 @@ public class Player {
         }
         return this;
     }
-
 }
