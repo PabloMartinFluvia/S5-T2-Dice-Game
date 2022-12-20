@@ -61,17 +61,19 @@ public class GameController {
         return gameResponse.rollsReaded(rolls);
     }
 
+    @GetMapping(path = {"/{id}/ranking"})
+    public ResponseEntity<?> showPlayerWinRate(@PathVariable Long id){
+        Player player = gameService.getPlayerWinRated(id);
+        return gameResponse.playerWinRatedReaded(player);
+    }
+
     //-----------------------------------------------------------------------------
 
 
 
 
 
-    @GetMapping(path = {"/{id}/ranking"})
-    public ResponseEntity<?> showPlayerWinRate(@PathVariable Long id){
-        Player player = gameService.getPlayerWinRated(id); //Potser no caldria TOT el Player
-        return gameResponse.playerWinRatedReaded(player);
-    }
+
 
 
     @GetMapping

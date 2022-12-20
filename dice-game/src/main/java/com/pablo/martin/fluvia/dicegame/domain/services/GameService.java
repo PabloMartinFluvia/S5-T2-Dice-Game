@@ -55,19 +55,23 @@ public interface GameService {
      */
     List<Roll> getPlayerRolls(Long id);
 
+    /**
+     * Buscar el model Player basic corresponent a l'id.
+     * Obtenir la llista de tirades del player (amb la info de si s'ha guanyat o no)
+     * Demanar al model del player que calculi el winrate i s'ho guardi (xo que no guardi les tirades)
+     * Retornar el model
+     * @param id
+     * @return
+     */
+    Player getPlayerWinRated(Long id);
+
     //-----------------------------------------------------------------------------------------------
 
 
 
 
 
-    /**
-     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
-     * Retornar-lo.
-     * @param id
-     * @return
-     */
-    Player getPlayerWinRated(Long id);
+
 
 
 
