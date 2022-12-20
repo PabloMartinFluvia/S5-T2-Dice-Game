@@ -133,6 +133,23 @@ public class GameLogic implements GameService{
                 .sorted(this::comparePlayers).toList();
     }
 
+    /**
+     * Demanar a l'adaptador el numero total de rolls guardades.
+     * Demanar a l'adaptador el número total de rolls guanyadors guardats.
+     * Retornar el ratio
+     * @return
+     */
+    @Override
+    public float getAverageWinRate() { // independent del tipus de BBDD
+        long toalRolls = persistenceAdapter.countRolls();
+        if (toalRolls == 0){
+            return 0f;
+        }else {
+            long winnerRolls = persistenceAdapter.countWinnersRolls();
+            return Float.valueOf(winnerRolls)/toalRolls;
+        }
+    }
+
     private Player loadBasicPlayer(Long id){
         return persistenceAdapter.findBasicPlayerById(id).orElseThrow(() -> new PlayerNotFoundException(id));
     }
@@ -188,18 +205,7 @@ public class GameLogic implements GameService{
 
 
 
-    /**
-     * Demanar al repositori la llista de tots els players.
-     * Si el llistat no inclou el % de cadascun caldà "pasar la data"
-     * Calcular el % mig
-     * Retornar el valor.
-     *
-     * @return
-     */
-    @Override
-    public float getAverageWinRate() {
-        return 0;
-    }
+
 
     /**
      * Demanar al repositori el player amb pitjor win rate

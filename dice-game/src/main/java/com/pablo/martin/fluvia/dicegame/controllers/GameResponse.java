@@ -1,7 +1,9 @@
 package com.pablo.martin.fluvia.dicegame.controllers;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pablo.martin.fluvia.dicegame.domain.models.Player;
 import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
+import com.pablo.martin.fluvia.dicegame.utils.PercentageSerializer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -40,9 +42,8 @@ public class GameResponse {
         return ResponseEntity.ok(players);
     }
 
-    public ResponseEntity<Map.Entry<String,Float>> averageWinRateDone(float winRate){ //potser seria millor usar un DTO
-        Map.Entry<String,Float> body = new AbstractMap.SimpleEntry<>("Average win rate",winRate); //TODO
-        return ResponseEntity.ok(body);
+    public ResponseEntity<AverageWinRateDto> averageWinRateDone(float winRate){
+        return ResponseEntity.ok(new AverageWinRateDto(winRate));
     }
 
     public ResponseEntity<?> extremPlayersFound(List<Player> extremePlayers){

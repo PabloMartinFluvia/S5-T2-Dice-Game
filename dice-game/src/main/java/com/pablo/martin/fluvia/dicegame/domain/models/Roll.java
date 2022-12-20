@@ -10,19 +10,24 @@ import java.util.Arrays;
 @Setter
 public class Roll {
 
+    @JsonIgnore
+    public static final int WIN_RESULT = 7;
+
     private RollResult result; // Enum WIN/LOSE,  es guanya si la suma dels daus = 7
 
     private int[] dices; //longitud = 2, valor de la cara del dau
 
-    @JsonIgnore
-    private int WIN_RESULT = 7;
-
     public Roll updateResult(){
-        if(Arrays.stream(dices).sum() == WIN_RESULT){
+        if(isWon()){
             result = RollResult.WIN;
         }else {
             result = RollResult.LOSE;
         }
         return this;
+    }
+
+    @JsonIgnore
+    public boolean isWon(){
+        return Arrays.stream(dices).sum() == WIN_RESULT;
     }
 }

@@ -75,6 +75,14 @@ public interface GameService {
      */
     List<Player> getAllPlayersWinRated();
 
+    /**
+     * Demanar a l'adaptador el numero total de rolls guardades.
+     * Demanar a l'adaptador el número total de rolls guanyadors guardats.
+     * Retornar el ratio
+     * @return
+     */
+    float getAverageWinRate(); // independent del tipus de BBDD
+
     //-----------------------------------------------------------------------------------------------
 
 
@@ -87,14 +95,7 @@ public interface GameService {
 
 
 
-    /**
-     * Demanar al repositori la llista de tots els players.
-     *      Si el llistat no inclou el % de cadascun caldà "pasar la data"
-     * Calcular el % mig
-     * Retornar el valor.
-     * @return
-     */
-    float getAverageWinRate();
+
 
     /**
      * Demanar al repositori el player amb pitjor win rate

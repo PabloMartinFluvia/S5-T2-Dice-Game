@@ -59,6 +59,11 @@ public interface PersistenceAdapter {
      */
     List<Player> findAllBasicPlayer();
 
+    long countRolls();
+
+
+    long countWinnersRolls();
+
     /**
      * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.
      * @param username

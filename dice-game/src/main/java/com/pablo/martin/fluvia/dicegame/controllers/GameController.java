@@ -73,6 +73,12 @@ public class GameController {
         return gameResponse.allPlayersWinRatedListed(players);
     }
 
+    @GetMapping(path = "/ranking")
+    public ResponseEntity<?> getAverageWinRate(){
+        float averageWinRate = gameService.getAverageWinRate();
+        return gameResponse.averageWinRateDone(averageWinRate);
+    }
+
     //-----------------------------------------------------------------------------
 
 
@@ -80,15 +86,6 @@ public class GameController {
 
 
 
-
-
-
-
-    @GetMapping(path = "/ranking")
-    public ResponseEntity<?> getAverageWinRate(){
-        float averageWinRate = gameService.getAverageWinRate();
-        return gameResponse.averageWinRateDone(averageWinRate);
-    }
 
     @GetMapping(path = "/ranking/loser")
     public ResponseEntity<?> findWorstPlayers(){
