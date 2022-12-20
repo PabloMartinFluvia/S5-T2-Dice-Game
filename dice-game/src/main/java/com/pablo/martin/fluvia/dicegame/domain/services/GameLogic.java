@@ -101,7 +101,7 @@ public class GameLogic implements GameService{
      */
     @Override
     public List<Roll> getPlayerRolls(Long id) {
-        return getPlayerRolls(loadBasicPlayer(id));
+        return getPlayerRolls(loadBasicPlayer(id)); //empty si no ha efectuat cap tirada
     }
 
     /**
@@ -130,10 +130,7 @@ public class GameLogic implements GameService{
     public List<Player> getAllPlayersWinRated() {
         List<Player> players = persistenceAdapter.findAllBasicPlayer();
         return players.stream().map(this::updateBasicPlayerWithWinRate)
-                //Sorting: ASC (low value..high value)
-                //usign comparator (n1,n2): firs n1 if n1<n2 (negative int return)
-                //      if returned int < 0 -> firs argument goes first
-                .sorted((p1,p2)->Float.compare(p2.getWinRate(), p1.getWinRate())).toList();
+                .sorted(this::comparePlayers).toList();
     }
 
     private Player loadBasicPlayer(Long id){
@@ -162,8 +159,20 @@ public class GameLogic implements GameService{
 
     private Player updateBasicPlayerWithWinRate(Player player){
         List<Roll> rolls = getPlayerRolls(player);
-        return player.updateWinRate(rolls);
+        return player.updateRollsInfo(rolls);
     }
+
+    private int comparePlayers(Player p1, Player p2){
+        //Wanted DESC sorting: first with better winrate, if equals first with more rolls
+        // Default sorting is in order ASC, first with lower value
+        //Comparator (p1,2) -> p1 sorted first if function returns <0 (same lògic in standard compare methods)
+        int result = -Float.compare(p1.getWinRate(),p2.getWinRate());
+        if(result == 0){
+            return p2.getTotalRolls()- p1.getTotalRolls();
+        }
+        return result;
+    }
+
 
     //-----------------------------------------------------------------------------------------------
 

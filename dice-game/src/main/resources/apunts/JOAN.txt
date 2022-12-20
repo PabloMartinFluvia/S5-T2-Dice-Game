@@ -5,6 +5,18 @@ A) És possible modificar el nom a ANONIM (no es llança l'error de nom duplicat
 B) En les consultes associades a un player, NO es llegeixen les seves partides (per a fer la consulta
 més eficient) ni tampoc es mostren. Només quan és estrictament necessari.
     -> En SQL @ManyToOne NO bidireccional
+C) ASSUMPCIÓ DEGUT A INCONCRECIÓ EN REQUISITS
+"GET /players/: retorna eL llistat de tots els jugadors/es del sistema amb el seu percentatge
+mitjà d’èxits."
+En el sistema poden haver-hi players SENSE CAP TIRADA feta -> NO TENEN % EXIT
+Com solucionar-ho afecta al GET /players/{id}/games i al GET /player/games (% mig)
+Decisió com gestionar players registrats sense tirades fetes:
+    Se li assigna un % d'èxit de 0.
+    Les respostes que impliquin informar del % d'èxit d'un jugador inclou el número total
+    de tirades fetes, per a poder diferenciar-los dels que tenen un 0 % d'èxit havent jugat.
+    Solicitar el llistat de les seves jugades retorna una llista buida (no genera cap error).
+    *No afecta al còmput de % mig dels jugadors ni a la búsqueda del pitjor(s) jugadors.
+
 
 Dubtes:
 1) Excepcions:

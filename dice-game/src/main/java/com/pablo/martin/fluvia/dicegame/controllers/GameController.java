@@ -84,8 +84,6 @@ public class GameController {
 
 
 
-    //GET players/{id}/ranking/games show player info with winrate and his list of rolls
-
     @GetMapping(path = "/ranking")
     public ResponseEntity<?> getAverageWinRate(){
         float averageWinRate = gameService.getAverageWinRate();
