@@ -9,6 +9,9 @@ https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-r
         -> Millor usar classes del paquet java.time
         https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#basic-temporal
 
+Customitzar com vui que sigui la serialització d'algun camp
+https://stackoverflow.com/questions/11319445/java-to-jackson-json-serialization-money-fields
+
 SQL
 Queries en SpringData + JPA:
 exists:

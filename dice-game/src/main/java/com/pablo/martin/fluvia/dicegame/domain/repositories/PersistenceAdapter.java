@@ -54,14 +54,6 @@ public interface PersistenceAdapter {
     void deletePlayerRolls(Player player);
 
     /**
-     * Demanar al repository de rolls la llista de models bàsics de rolls associats
-     * a aquest model bàsic de player.
-     * @param player
-     * @return
-     */
-    List<Roll> loadPlayerRolls(Player player);
-
-    /**
      * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.
      * @param username
      * @return
@@ -74,6 +66,14 @@ public interface PersistenceAdapter {
      * @return
      */
     boolean existsPlayerById(Long id);
+
+    /**
+     * Demanar al repository de rolls la llista de models bàsics de rolls associats
+     * a aquest model bàsic de player.
+     * @param player
+     * @return
+     */
+    List<Roll> loadPlayerRolls(Player player);
 
     //-----------------------------------------------------------------------------------------------
 

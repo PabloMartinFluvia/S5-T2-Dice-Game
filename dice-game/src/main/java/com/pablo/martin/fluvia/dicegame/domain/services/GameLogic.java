@@ -100,8 +100,22 @@ public class GameLogic implements GameService{
      */
     @Override
     public List<Roll> getPlayerRolls(Long id) {
+        return getPlayerRolls(loadBasicPlayer(id));
+    }
+
+    /**
+     * Buscar el model Player basic corresponent a l'id.
+     * Obtenir la llista de tirades del player (amb la info de si s'ha guanyat o no)
+     * Demanar al model del player que calculi el winrate i s'ho guardi (xo que no guardi les tirades)
+     * Retornar el model
+     * @param id
+     * @return
+     */
+    @Override
+    public Player getPlayerWinRated(Long id) {
         Player player = loadBasicPlayer(id);
-        return persistenceAdapter.loadPlayerRolls(player).stream().map(roll -> roll.updateResult()).toList();
+        List<Roll> rolls = getPlayerRolls(player);
+        return player.updateWinRate(rolls);
     }
 
     private Player loadBasicPlayer(Long id){
@@ -124,6 +138,10 @@ public class GameLogic implements GameService{
         }
     }
 
+    private List<Roll> getPlayerRolls(Player player){
+        return persistenceAdapter.loadPlayerRolls(player).stream().map(roll -> roll.updateResult()).toList();
+    }
+
     //-----------------------------------------------------------------------------------------------
 
 
@@ -132,17 +150,7 @@ public class GameLogic implements GameService{
 
 
 
-    /**
-     * Demanar al repositori el Player en qüestió i si no el trova llançar excepció
-     * Retornar-lo.
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Player getPlayerWinRated(Long id) {
-        return null;
-    }
+
 
 
 

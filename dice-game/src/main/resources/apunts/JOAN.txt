@@ -1,0 +1,12 @@
+Info general:
+0) Default nom és ANONIM (sense accent). Valor modificable en values.properties.
+A) És possible modificar el nom a ANONIM (no es llança l'error de nom duplicat),
+    però cal especificar-ho (no és default)
+B) En les consultes associades a un player, NO es llegeixen les seves partides (per a fer la consulta
+més eficient) ni tampoc es mostren. Només quan és estrictament necessari.
+    -> En SQL @ManyToOne NO bidireccional
+
+Dubtes:
+1) Excepcions:
+No trovo una bona manera de customitzar el missatge de HttpMessageNotReadableException,
+especificament quan petició feta sense body quan es required. Alguna recomanació?
