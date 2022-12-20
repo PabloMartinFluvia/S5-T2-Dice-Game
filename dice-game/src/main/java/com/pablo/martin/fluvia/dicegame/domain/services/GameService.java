@@ -65,6 +65,16 @@ public interface GameService {
      */
     Player getPlayerWinRated(Long id);
 
+    /**
+     * Obtenir del adaptador la llista dels players en format model bàsic.
+     * Per a cada model del llistat:
+     * Actualitzar-lo a model player win rated.
+     * Ordenar el llistat segons el valor del ratio de major a menor
+     * Retornar el llistat
+     * @return
+     */
+    List<Player> getAllPlayersWinRated();
+
     //-----------------------------------------------------------------------------------------------
 
 
@@ -75,13 +85,7 @@ public interface GameService {
 
 
 
-    /**
-     * Demanar al repositori tots els registres de player.
-     * IMPORTANT: NO S'HA DE RETORNAR AL CONTROLADOR LA LLISTA DE TIRADES PERÒ SI EL % DE CADASCUN D'ELLS
-     * Retornar-los.
-     * @return
-     */
-    List<Player> getAllPlayersWinRated();
+
 
     /**
      * Demanar al repositori la llista de tots els players.

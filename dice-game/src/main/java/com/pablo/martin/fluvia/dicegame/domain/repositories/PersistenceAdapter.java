@@ -54,6 +54,12 @@ public interface PersistenceAdapter {
     void deletePlayerRolls(Player player);
 
     /**
+     * Demanar al repositori de players tots els models basics de players guardats.
+     * @return
+     */
+    List<Player> findAllBasicPlayer();
+
+    /**
      * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.
      * @param username
      * @return
