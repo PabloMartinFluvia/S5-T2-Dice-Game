@@ -2,7 +2,7 @@ package com.pablo.martin.fluvia.dicegame.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.pablo.martin.fluvia.dicegame.utils.PercentageSerializer;
+import com.pablo.martin.fluvia.dicegame.utils.json.PercentageSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

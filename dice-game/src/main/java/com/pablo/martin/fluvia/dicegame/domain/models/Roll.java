@@ -1,11 +1,14 @@
 package com.pablo.martin.fluvia.dicegame.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pablo.martin.fluvia.dicegame.utils.validations.ValidRoll;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Arrays;
 
+
+@ValidRoll
 @Getter
 @Setter
 public class Roll {
