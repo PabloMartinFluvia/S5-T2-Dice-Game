@@ -73,7 +73,7 @@ public interface GameService {
      * Retornar el llistat
      * @return
      */
-    List<Player> getAllPlayersWinRated();
+    List<Player> findAllPlayersRankedDesc();
 
     /**
      * Demanar a l'adaptador el numero total de rolls guardades.
@@ -83,35 +83,23 @@ public interface GameService {
      */
     float getAverageWinRate(); // independent del tipus de BBDD
 
+    /**
+     * Demanar a l'adaptador quin és el màxim winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el màxim winrate llegit.
+     * @return
+     */
+    List<Player> findBestPlayers(); // independent del tipus de BBDD
+
+    /**
+     * Demanar a l'adaptador quin és el min winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el min winrate llegit.
+     * @return
+     */
+    List<Player> findWorstPlayers();
+
     //-----------------------------------------------------------------------------------------------
 
 
 
 
-
-
-
-
-
-
-
-
-
-    /**
-     * Demanar al repositori el player amb pitjor win rate
-     *      Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     * @return
-     */
-    List<Player> findWorstPlayers();
-
-    /**
-     * Demanar al repositori el player amb millor win rate
-     *      Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     * @return
-     */
-    List<Player> findBestPlayers();
 }

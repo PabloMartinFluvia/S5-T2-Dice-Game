@@ -59,10 +59,23 @@ public interface PersistenceAdapter {
      */
     List<Player> findAllBasicPlayer();
 
-    long countRolls();
+    long countAllRolls();
 
 
-    long countWinnersRolls();
+    long countAllRollsWon();
+
+    /**
+     * @return Best winrate achived. Empty optional if there's no rolls.
+     */
+    Optional<Float> findMaxWinrate();
+
+    /**
+     * @return Worst winrate achived. Empty optional if there's no rolls.
+     * @return
+     */
+    Optional<Float> findMinWinrate();
+
+    List<Player> findPlayersDataByWinrate(float winrate);
 
     /**
      * Demanar al repository de player que busqui si ja existeix un usuari amb aquest nom.

@@ -5,17 +5,20 @@ import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
 import com.pablo.martin.fluvia.dicegame.domain.repositories.PersistenceAdapter;
 import com.pablo.martin.fluvia.dicegame.exceptions.PlayerNotFoundException;
 import com.pablo.martin.fluvia.dicegame.exceptions.UsernameNotAvailableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @PropertySource("classpath:values.properties")
 public class GameLogic implements GameService{
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private PersistenceAdapter persistenceAdapter;
 
@@ -127,7 +130,7 @@ public class GameLogic implements GameService{
      * @return
      */
     @Override
-    public List<Player> getAllPlayersWinRated() {
+    public List<Player> findAllPlayersRankedDesc() {
         List<Player> players = persistenceAdapter.findAllBasicPlayer();
         return players.stream().map(this::updateBasicPlayerWithWinRate)
                 .sorted(this::comparePlayers).toList();
@@ -141,12 +144,48 @@ public class GameLogic implements GameService{
      */
     @Override
     public float getAverageWinRate() { // independent del tipus de BBDD
-        long toalRolls = persistenceAdapter.countRolls();
+        long toalRolls = persistenceAdapter.countAllRolls();
         if (toalRolls == 0){
             return 0f;
         }else {
-            long winnerRolls = persistenceAdapter.countWinnersRolls();
+            long winnerRolls = persistenceAdapter.countAllRollsWon();
             return Float.valueOf(winnerRolls)/toalRolls;
+        }
+    }
+
+    /**
+     * Demanar a l'adaptador quin és el màxim winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el màxim winrate llegit.
+     * @return
+     */
+    @Override
+    public List<Player> findBestPlayers() { // independent del tipus de BBDD
+        Optional<Float> maxwinrate = persistenceAdapter.findMaxWinrate();
+        if(maxwinrate.isPresent() && maxwinrate.get() > 0){
+            return persistenceAdapter.findPlayersDataByWinrate(maxwinrate.get())
+                    .stream()
+                    .sorted(this::comparePlayers)
+                    .toList();
+        }else {
+            return List.of();
+        }
+    }
+
+    /**
+     * Demanar a l'adaptador quin és el min winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el min winrate llegit.
+     * @return
+     */
+    @Override
+    public List<Player> findWorstPlayers() {
+        Optional<Float> minWinrate = persistenceAdapter.findMinWinrate();
+        if(minWinrate.isPresent()){
+            return persistenceAdapter.findPlayersDataByWinrate(minWinrate.get())
+                    .stream()
+                    .sorted(this::comparePlayers)
+                    .toList();
+        }else {
+            return List.of();
         }
     }
 
@@ -203,33 +242,4 @@ public class GameLogic implements GameService{
 
 
 
-
-
-
-
-    /**
-     * Demanar al repositori el player amb pitjor win rate
-     * Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     *
-     * @return
-     */
-    @Override
-    public List<Player> findWorstPlayers() {
-        return null;
-    }
-
-    /**
-     * Demanar al repositori el player amb millor win rate
-     * Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     *
-     * @return
-     */
-    @Override
-    public List<Player> findBestPlayers() {
-        return null;
-    }
 }

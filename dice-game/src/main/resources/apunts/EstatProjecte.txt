@@ -2,6 +2,8 @@ De moment encara no s'ha afegit cap dependencia de JPA ni dels drivers a la BBDD
 
 De moment no afegeixo documentació
 
+TODO: List<Player> a Set<Player>?
+
 Controlador:
     De moment TOTS els endpoints en un mateix controlador, sense tenir en compte rols ni permisos.
     De moment treballa directament amb els models (com si fossin DTOs)

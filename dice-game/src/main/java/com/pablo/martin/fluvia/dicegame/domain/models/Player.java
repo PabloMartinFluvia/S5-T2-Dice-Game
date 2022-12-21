@@ -20,9 +20,6 @@ public class Player {
 
     private String username; //no repetit, si no proporcionat -> ANONIM
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime registerDate; //valor segons quan es crea
-
     @JsonInclude(Include.NON_NULL)
     @JsonSerialize(using = PercentageSerializer.class)
     private Float winRate; // ratio d'exit
@@ -31,6 +28,9 @@ public class Player {
     private Integer totalRolls;
 
     //atribute for rolls collection not needed yet <- none request asks for player info AND rolls done
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime registerDate; //valor segons quan es crea
 
     public Player updateRollsInfo(List<Roll> rolls){
         if (rolls.isEmpty()){
