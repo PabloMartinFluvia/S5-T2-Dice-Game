@@ -1,6 +1,21 @@
 JSON annotations per a la serialització / deserialització
 https://springframework.guru/jackson-annotations-json/
 
+VALIDACIONS
+https://docs.spring.io/spring-framework/docs/6.0.2/reference/html/core.html#validation
+-> Spring proporciona suport per a la especificació de:
+https://beanvalidation.org/   Jakarta Bean Validation API   *constaints
+-> la implementació recomanada és la de hibernate
+https://hibernate.org/validator/releases/   *validations
+
+->-> usar dependencia del starter de spring I/O Validation (tot inclos?)
+
+https://www.baeldung.com/javax-validation
+https://www.baeldung.com/spring-mvc-custom-validator
+*Ojo: en una @ compunded els missatges default de les utilitzades tenen preferencia sobre la default
+en la composta -> indicar missatge en les utilitzades
+
+
 Dates i temps + serialitzacions i formats
 https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-response-201e97aa74b0
     obs 1: si vui que les hores siguin en rang 24h cal HH (enlloc de hh)

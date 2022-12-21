@@ -1,4 +1,13 @@
-De moment encara no s'ha afegit cap dependencia de JPA ni dels drivers a la BBDD
+Doing Servei independent de la BBDD
+
+Modificar respostes + HATEOAs
+Afegir seguretat
+Afegir Documentació
+Borrar Loggers
+
+CONTROLLER
+POST /players
+
 
 De moment no afegeixo documentació
 

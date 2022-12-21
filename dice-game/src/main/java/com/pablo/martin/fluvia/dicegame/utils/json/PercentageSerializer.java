@@ -1,4 +1,4 @@
-package com.pablo.martin.fluvia.dicegame.utils;
+package com.pablo.martin.fluvia.dicegame.utils.json;
 
 
 import com.fasterxml.jackson.core.JsonGenerator;
