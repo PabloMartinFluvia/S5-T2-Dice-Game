@@ -41,3 +41,6 @@ Canviar el format de col·leccions entre elles o entre Streams pot generar una U
 Ex: Arrays.asList() + demanar a la llista .add()
 Ex: .stream()...toList() + demanar a la llista .sort(Comparator) -> Solució l'operació sort s'ha de fer
 des del format stream.
+
+Comparadors per a ordenar:
+Veure mètode en GameLogic

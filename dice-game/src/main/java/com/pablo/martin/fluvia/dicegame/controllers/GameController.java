@@ -3,34 +3,37 @@ package com.pablo.martin.fluvia.dicegame.controllers;
 import com.pablo.martin.fluvia.dicegame.domain.models.Player;
 import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
 import com.pablo.martin.fluvia.dicegame.domain.services.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/players")
 @PropertySource("classpath:values.properties")
 public class GameController {
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+
     private GameService gameService;
 
-    private GameResponse gameResponse;
+    private GameResponse response;
 
     @Autowired
-    public GameController(GameService gameService, GameResponse gameResponse){
+    public GameController(GameService gameService, GameResponse response){
         this.gameService = gameService;
-        this.gameResponse = gameResponse;
+        this.response = response;
     }
 
     @PostMapping
     public ResponseEntity<?> registerPlayer(
             @RequestParam(defaultValue = "${user.defaultName}") String name){ //param in url must be /players?name=xxx
         Player player = gameService.registerNewPlayer(name);
-        return gameResponse.playerCreated(player);
+        return response.forNewPlayer(player);
     }
 
     @PutMapping
@@ -38,7 +41,7 @@ public class GameController {
             @RequestParam Long id,
             @RequestParam String name) { //param in url must be /players?id=yyy;name=xxx
         Player player = gameService.updateName(id, name);
-        return gameResponse.nameUpdated(player);
+        return response.forUpdatedPlayer(player);
     }
 
     @PostMapping(path = "/{id}/games")
@@ -46,61 +49,52 @@ public class GameController {
             @RequestBody Roll nums, // nova tirada és POST -> petició té info dels daus
             @PathVariable Long id){
         Roll roll = gameService.addRoll(id,nums);
-        return gameResponse.rollDone(roll);
+        return response.forRoll(roll);
     }
 
     @DeleteMapping(path = "/{id}/games")
     public ResponseEntity<?> deletePlayerRolls(@PathVariable Long id){
         gameService.deletePlayerRolls(id);
-        return gameResponse.rollsDeleted();
+        return response.forDeletedRolls();
     }
 
     @GetMapping(path = "/{id}/games")
     public ResponseEntity<?> listPlayerRolls(@PathVariable Long id){
         List<Roll> rolls = gameService.getPlayerRolls(id);
-        return gameResponse.rollsReaded(rolls);
+        return response.forRolls(rolls);
     }
 
-    @GetMapping(path = {"/{id}/ranking"})
+    @GetMapping(path = {"/{id}/ranking","/{id}"})
     public ResponseEntity<?> showPlayerWinRate(@PathVariable Long id){
         Player player = gameService.getPlayerWinRated(id);
-        return gameResponse.playerWinRatedReaded(player);
+        return response.forRanked(player);
     }
 
     @GetMapping
-    public ResponseEntity<?> listAllPlayersWinRate(){
-        List<Player> players = gameService.getAllPlayersWinRated();
-        return gameResponse.allPlayersWinRatedListed(players);
+    public ResponseEntity<?> listAllPlayersRanked(){
+        List<Player> players = gameService.findAllPlayersRankedDesc();
+        return response.forRanked(players);
     }
-
-    //-----------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-    //GET players/{id}/ranking/games show player info with winrate and his list of rolls
 
     @GetMapping(path = "/ranking")
     public ResponseEntity<?> getAverageWinRate(){
         float averageWinRate = gameService.getAverageWinRate();
-        return gameResponse.averageWinRateDone(averageWinRate);
-    }
-
-    @GetMapping(path = "/ranking/loser")
-    public ResponseEntity<?> findWorstPlayers(){
-        List<Player> worstPlayers = gameService.findWorstPlayers(); //poden ser N en cas d'empat
-        return gameResponse.extremPlayersFound(worstPlayers);
+        return response.forAverageWinRate(averageWinRate);
     }
 
     @GetMapping(path = "/ranking/winner")
     public ResponseEntity<?> findBestPlayers(){
         List<Player> bestPlayers = gameService.findBestPlayers(); //poden ser N en cas d'empat
-        return gameResponse.extremPlayersFound(bestPlayers);
+        return response.forExtremePlayers(bestPlayers);
     }
+
+    @GetMapping(path = "/ranking/loser")
+    public ResponseEntity<?> findWorstPlayers(){
+        List<Player> worstPlayers = gameService.findWorstPlayers(); //poden ser N en cas d'empat
+        return response.forExtremePlayers(worstPlayers);
+    }
+
+    //-----------------------------------------------------------------------------
+
+
 }

@@ -5,17 +5,20 @@ import com.pablo.martin.fluvia.dicegame.domain.models.Roll;
 import com.pablo.martin.fluvia.dicegame.domain.repositories.PersistenceAdapter;
 import com.pablo.martin.fluvia.dicegame.exceptions.PlayerNotFoundException;
 import com.pablo.martin.fluvia.dicegame.exceptions.UsernameNotAvailableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @PropertySource("classpath:values.properties")
 public class GameLogic implements GameService{
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private PersistenceAdapter persistenceAdapter;
 
@@ -101,7 +104,7 @@ public class GameLogic implements GameService{
      */
     @Override
     public List<Roll> getPlayerRolls(Long id) {
-        return getPlayerRolls(loadBasicPlayer(id));
+        return getPlayerRolls(loadBasicPlayer(id)); //empty si no ha efectuat cap tirada
     }
 
     /**
@@ -127,13 +130,63 @@ public class GameLogic implements GameService{
      * @return
      */
     @Override
-    public List<Player> getAllPlayersWinRated() {
+    public List<Player> findAllPlayersRankedDesc() {
         List<Player> players = persistenceAdapter.findAllBasicPlayer();
         return players.stream().map(this::updateBasicPlayerWithWinRate)
-                //Sorting: ASC (low value..high value)
-                //usign comparator (n1,n2): firs n1 if n1<n2 (negative int return)
-                //      if returned int < 0 -> firs argument goes first
-                .sorted((p1,p2)->Float.compare(p2.getWinRate(), p1.getWinRate())).toList();
+                .sorted(this::comparePlayers).toList();
+    }
+
+    /**
+     * Demanar a l'adaptador el numero total de rolls guardades.
+     * Demanar a l'adaptador el número total de rolls guanyadors guardats.
+     * Retornar el ratio
+     * @return
+     */
+    @Override
+    public float getAverageWinRate() { // independent del tipus de BBDD
+        long toalRolls = persistenceAdapter.countAllRolls();
+        if (toalRolls == 0){
+            return 0f;
+        }else {
+            long winnerRolls = persistenceAdapter.countAllRollsWon();
+            return Float.valueOf(winnerRolls)/toalRolls;
+        }
+    }
+
+    /**
+     * Demanar a l'adaptador quin és el màxim winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el màxim winrate llegit.
+     * @return
+     */
+    @Override
+    public List<Player> findBestPlayers() { // independent del tipus de BBDD
+        Optional<Float> maxwinrate = persistenceAdapter.findMaxWinrate();
+        if(maxwinrate.isPresent() && maxwinrate.get() > 0){
+            return persistenceAdapter.findPlayersDataByWinrate(maxwinrate.get())
+                    .stream()
+                    .sorted(this::comparePlayers)
+                    .toList();
+        }else {
+            return List.of();
+        }
+    }
+
+    /**
+     * Demanar a l'adaptador quin és el min winrate entre tots els players guardats
+     * Demanar a l'adaptador el(s) player(s) que tinguin el min winrate llegit.
+     * @return
+     */
+    @Override
+    public List<Player> findWorstPlayers() {
+        Optional<Float> minWinrate = persistenceAdapter.findMinWinrate();
+        if(minWinrate.isPresent()){
+            return persistenceAdapter.findPlayersDataByWinrate(minWinrate.get())
+                    .stream()
+                    .sorted(this::comparePlayers)
+                    .toList();
+        }else {
+            return List.of();
+        }
     }
 
     private Player loadBasicPlayer(Long id){
@@ -162,8 +215,20 @@ public class GameLogic implements GameService{
 
     private Player updateBasicPlayerWithWinRate(Player player){
         List<Roll> rolls = getPlayerRolls(player);
-        return player.updateWinRate(rolls);
+        return player.updateRollsInfo(rolls);
     }
+
+    private int comparePlayers(Player p1, Player p2){
+        //Wanted DESC sorting: first with better winrate, if equals first with more rolls
+        // Default sorting is in order ASC, first with lower value
+        //Comparator (p1,2) -> p1 sorted first if function returns <0 (same lògic in standard compare methods)
+        int result = -Float.compare(p1.getWinRate(),p2.getWinRate());
+        if(result == 0){
+            return p2.getTotalRolls()- p1.getTotalRolls();
+        }
+        return result;
+    }
+
 
     //-----------------------------------------------------------------------------------------------
 
@@ -177,44 +242,4 @@ public class GameLogic implements GameService{
 
 
 
-
-
-    /**
-     * Demanar al repositori la llista de tots els players.
-     * Si el llistat no inclou el % de cadascun caldà "pasar la data"
-     * Calcular el % mig
-     * Retornar el valor.
-     *
-     * @return
-     */
-    @Override
-    public float getAverageWinRate() {
-        return 0;
-    }
-
-    /**
-     * Demanar al repositori el player amb pitjor win rate
-     * Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     *
-     * @return
-     */
-    @Override
-    public List<Player> findWorstPlayers() {
-        return null;
-    }
-
-    /**
-     * Demanar al repositori el player amb millor win rate
-     * Podrien ser N, en cas que hi hagi empat(s)
-     * Important, cal que el Player inclogui el win rate
-     * Retornar-lo(s)
-     *
-     * @return
-     */
-    @Override
-    public List<Player> findBestPlayers() {
-        return null;
-    }
 }
